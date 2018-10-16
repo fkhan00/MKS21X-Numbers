@@ -1,7 +1,6 @@
-public class RealNumber
-{
-    double value;
-    public RealNumber(double newValue )
+public class RealNumber {
+    private double value;
+    public RealNumber(double newValue)
     {
         value = newValue;
     }
@@ -9,7 +8,27 @@ public class RealNumber
     {
         return value;
     }
-    public boolean equals(RealNumber other) {
-        return getValue() == other.getValue();
+    public boolean equals(RealNumber other)
+    {
+        return this.getValue() == other.getValue();
+    }
+    public double add(RealNumber other)
+    {
+        return this.getValue()  + other.getValue();
+    }
+    public double multiply(RealNumber other)
+    {
+        return this.getValue() * other.getValue();
+    }
+    public double subtract(RealNumber other)
+    {
+        return this.getValue() - other.getValue();
+    }
+    public double division(RealNumber other)
+    {
+        return this.getValue() / other.getValue();
+    }
+    public String toString(){
+        return "" + value;
     }
 }
