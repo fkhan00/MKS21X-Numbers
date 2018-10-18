@@ -1,10 +1,16 @@
 public class RationalNumber extends RealNumber
 {
-    super(0.0);
-    private int numerator, denominator;
+    private int numerator;
+    private int denominator;
 
     public RationalNumber(int num, int denom)
     {
+        super(0.0);
+        if (num == 0 || denom == 0)
+        {
+          num = 0;
+          denom = 1;
+        }
         numerator = num;
         denominator = denom;
     }
@@ -17,47 +23,44 @@ public class RationalNumber extends RealNumber
         return denominator;
     }
 
-    public void reduce()
+    public int gcd(int a, int b)
     {
-        int greatest = 1;
-        int nums = getNumerator();
-        for (int i = 0; i < nums; i++)
-        {
-            if (getNumerator() % i == 0 && getDenominator() % i == 0)
-            {
-                greatest *= i;
-                nums /= i;
-            }
-        }
-        numerator /= greatest;
-        denominator /= greatest;
+      int greatest = 1;
+      for (int i = 1; i <= a; i++)
+      {
+          if (a % i == 0 && b % i == 0)
+          {
+              greatest = i;
+          }
+      }
+      return greatest;
+    }
+    private RationalNumber reduce()
+    {
+        RationalNumber output = new RationalNumber(getNumerator() / gcd(getNumerator(), getDenominator()), getDenominator() / gcd(getNumerator(), getDenominator()));
+        return output;
     }
 
     public double getValue()
     {
-        return numerator / denominator;
+        return numerator / (double)denominator;
     }
     public RationalNumber add(RationalNumber other)
     {
-        reduce();
-        other.reduce();
         int top = this.getNumerator() * other.getDenominator() + this.getDenominator() * other.getNumerator();
         int bottom =  this.getDenominator() * other.getDenominator();
         RationalNumber output = new RationalNumber(top, bottom);
-        return output;
+        return output.reduce();
     }
     public RationalNumber multiply(RationalNumber other)
     {
-        reduce();
-        other.reduce();
         RationalNumber answer = new RationalNumber(getNumerator() * other.getNumerator(), getDenominator() * other.getDenominator());
-        return answer;
+        return answer.reduce();
     }
     public RationalNumber reciprocal()
     {
-        reduce();
         RationalNumber recip = new RationalNumber(getDenominator(), getNumerator());
-        return recip;
+        return recip.reduce();
     }
     public RationalNumber divide(RationalNumber other)
     {
@@ -70,22 +73,33 @@ public class RationalNumber extends RealNumber
         int top = this.getNumerator() * other.getDenominator() + this.getDenominator() * other.getNumerator() * -1;
         int bottom =  this.getDenominator() * other.getDenominator();
         RationalNumber output = new RationalNumber(top, bottom);
-        return output;
+        return output.reduce();
     }
     public boolean equals(RationalNumber other)
     {
-        reduce();
-        other.reduce();
-        return getNumerator() == other.getNumerator() && getDenominator() == other.getDenominator();
+
+        return this.reduce().getNumerator() == other.reduce().getNumerator() && this.reduce().getDenominator() == other.reduce().getDenominator();
     }
     public String toString()
     {
+        reduce();
         String down = "" + getDenominator();
         String up = "" + getNumerator();
-        return down + "/" + up;
+        if (getDenominator() == 1)
+        {
+          return up;
+        }
+        if (getDenominator() == getNumerator())
+        {
+          return "" + 1;
+        }
+        if (getNumerator() == 0)
+        {
+          return "" + 0;
+        }
+        return up + "/" + down;
     }
 
 
 
 }
-

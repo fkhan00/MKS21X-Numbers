@@ -24,7 +24,7 @@ public class RealNumber {
     {
         return this.getValue() - other.getValue();
     }
-    public double division(RealNumber other)
+    public double divide(RealNumber other)
     {
         return this.getValue() / other.getValue();
     }
